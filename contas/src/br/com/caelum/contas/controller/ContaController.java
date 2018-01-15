@@ -3,6 +3,7 @@ package br.com.caelum.contas.controller;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,13 @@ import br.com.caelum.contas.modelo.Conta;
 
 @Controller
 public class ContaController {
+	
+	private ContaDAO contaDAO;
+
+	@Autowired
+	public ContaController(ContaDAO contaDAO) {
+		this.contaDAO = contaDAO;
+	}
 
 	@RequestMapping("/formulario")
 	public String formulario() {
@@ -28,44 +36,44 @@ public class ContaController {
 			return "conta/formulario";
 		}
 		
-		new ContaDAO().adiciona(conta);
+		contaDAO.adiciona(conta);
 		redirectAttrs.addFlashAttribute("mensagem", "Conta adicionada com sucesso");
 		return "redirect:listaContas";
 	}
 	
 	@RequestMapping("/pagaConta")
 	public void paga(Conta conta, HttpServletResponse response) {
-		new ContaDAO().paga(conta.getId());
+		contaDAO.paga(conta.getId());
 		response.setStatus(200);
 	}
 	
 	@RequestMapping("/alteraConta")
 	public String altera(Conta conta, final RedirectAttributes redirectAttrs) {
-		new ContaDAO().altera(conta);
+		contaDAO.altera(conta);
 		redirectAttrs.addFlashAttribute("mensagem", "Conta atualizada com sucesso");
 		return "redirect:listaContas";
 	}
 	
 	@RequestMapping("/listaContas")
 	public ModelAndView lista() {
-		return new ModelAndView("conta/lista").addObject("contas", new ContaDAO().lista());
+		return new ModelAndView("conta/lista").addObject("contas", contaDAO.lista());
 	}
 	
 	@RequestMapping("/listaContasComModel")
 	public String listaComModel(Model model) {
-		model.addAttribute("contas", new ContaDAO().lista());
+		model.addAttribute("contas", contaDAO.lista());
 		return "conta/lista";
 	}
 	
 	@RequestMapping("/removeConta")
 	public String remove(Conta conta, final RedirectAttributes redirectAttrs) {
-		new ContaDAO().remove(conta);
+		contaDAO.remove(conta);
 		redirectAttrs.addFlashAttribute("mensagem", "Conta removida com sucesso");
 		return "redirect:listaContas";
 	}
 	
 	@RequestMapping("/mostraConta")
 	public ModelAndView mostra(Conta conta) {
-		return new ModelAndView("conta/mostra").addObject("conta", new ContaDAO().buscaPorId(conta.getId()));
+		return new ModelAndView("conta/mostra").addObject("conta", contaDAO.buscaPorId(conta.getId()));
 	}
 }
