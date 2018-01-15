@@ -1,7 +1,10 @@
 package br.com.caelum.contas.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -18,7 +21,12 @@ public class ContaController {
 	}
 	
 	@RequestMapping("/adicionaConta")
-	public String adiciona(Conta conta, final RedirectAttributes redirectAttrs) {
+	public String adiciona(@Valid Conta conta, BindingResult bindingResult, final RedirectAttributes redirectAttrs) {
+
+		if(bindingResult.hasErrors()) {
+			return "conta/formulario";
+		}
+		
 		new ContaDAO().adiciona(conta);
 		redirectAttrs.addFlashAttribute("mensagem", "Conta adicionada com sucesso");
 		return "redirect:listaContas";

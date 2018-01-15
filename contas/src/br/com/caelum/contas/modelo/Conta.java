@@ -2,12 +2,17 @@ package br.com.caelum.contas.modelo;
 
 import java.util.Calendar;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class Conta {
 	
 	private Long id;
 
+	@NotBlank(message="{conta.descricao.vazia}")
+	@Size(min=5,message= "{conta.descricao.tamanho}")
 	private String descricao;
 
 	private boolean paga;
