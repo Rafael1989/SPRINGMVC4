@@ -12,8 +12,12 @@
 	<form action="adicionaConta" method="post">
 		Descrição: <br/>
 		<textarea name="descricao" rows="5" cols="100"></textarea><br/>
+		Paga?<br/>
+		<input type="checkbox" name="paga" /><br/>
 		Valor: <br/>
 		<input type="text" name="valor"/><br/>
+		Data do Pagamento: <br/>
+		<input type="text" name="dataPagamento"/><br/>
 		Tipo: <br/>
 		<select name="tipo">
 			<option value="ENTRADA">ENTRADA</option>
