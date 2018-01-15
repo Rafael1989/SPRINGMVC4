@@ -26,6 +26,8 @@
 </head>
 <body>
 	<h3>Lista de contas</h3>
+	<a href="logout">Logout</a>
+	<a href="formulario">Nova conta</a>
 	<table>
 		<thead>
 			<tr>
