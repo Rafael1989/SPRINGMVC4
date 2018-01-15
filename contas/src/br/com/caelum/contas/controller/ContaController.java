@@ -1,5 +1,6 @@
 package br.com.caelum.contas.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,12 @@ public class ContaController {
 		new ContaDAO().adiciona(conta);
 		redirectAttrs.addFlashAttribute("mensagem", "Conta adicionada com sucesso");
 		return "redirect:listaContas";
+	}
+	
+	@RequestMapping("/pagaConta")
+	public void paga(Conta conta, HttpServletResponse response) {
+		new ContaDAO().paga(conta.getId());
+		response.setStatus(200);
 	}
 	
 	@RequestMapping("/alteraConta")

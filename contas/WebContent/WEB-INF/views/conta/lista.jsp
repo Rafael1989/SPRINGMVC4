@@ -5,6 +5,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="resources/js/jquery.js"></script>
+<script type="text/javascript">
+	function pagaContaViaGet(id){
+		$.get("pagaConta?id=" + id, exibeMensagem)
+	}
+	
+	function exibeMensagem(){
+		alert("Conta paga com sucesso");
+	}
+	
+	function pagaConta(id){
+		$.post("pagaConta",{'id':id},function(){
+			$("#conta_"+id).html("Paga");
+		});
+	}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Conta</title>
 </head>
@@ -31,7 +47,7 @@
 						<td>Paga</td>
 					</c:if>
 					<c:if test="${conta.paga eq 'false'}">
-						<td>Pendente</td>
+						<td id="conta_${conta.id}"><a href="#" onclick="pagaConta(${conta.id})">Pagar</a></td>
 					</c:if>
 					<td>${conta.valor}</td>
 					<td><fmt:formatDate value="${conta.dataPagamento.time}" pattern="dd/MM/yyyy"/></td>
